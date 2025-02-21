@@ -14,10 +14,14 @@ def _get_sector(filename):
     return int(filename.split("-")[1].strip("s"))
 
 
-def _download_cutouts(tic, cutout_size=50, sectors=None):
-    results = Catalogs.query_object(objectname=tic, catalog="TIC")
-    ra = results[0]["ra"]
-    dec = results[0]["dec"]
+def _download_cutouts(tic=None, ra=None, dec=None, cutout_size=50, sectors=None):
+    if tic is None and (ra is None and dec is None):
+        raise ValueError("_download_cutouts requires ra/dec or TIC")
+    
+    if tic is not None:
+        results = Catalogs.query_object(objectname=tic, catalog="TIC")
+        ra = results[0]["ra"]
+        dec = results[0]["dec"]
 
     return cube_cut_from_footprint(
         coordinates=f"{ra} {dec}",
@@ -27,9 +31,13 @@ def _download_cutouts(tic, cutout_size=50, sectors=None):
     )
 
 
-def make_lightcurves(tic, sectors=None):
+def make_lightcurves(tic, ra=None, dec=None, sectors=None):
     results = []
-    cutouts = _download_cutouts(tic, sectors=sectors)
+
+    if ra is not None and dec is not None:
+        cutouts = _download_cutouts(ra=ra, dec=dec, sectors=sectors)
+    else:
+        cutouts = _download_cutouts(tic)
 
     for cutout in cutouts:
         s = unpopular.Source(cutout, remove_bad=True)
