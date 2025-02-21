@@ -1,0 +1,6 @@
+mdwarfs.csv generated using MAST to query the TICv8.2
+
+Tmag: [0, 16]
+Teff: [2000, 3500]
+lumclass: DWARF
+d: [1, 150]
