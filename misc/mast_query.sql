@@ -1,3 +1,4 @@
+-- vim: syntax=sql
 SELECT * into mydb.MyTable_0 from CatalogRecord
 WHERE objType = 'STAR'
   AND Tmag BETWEEN 0 AND 16

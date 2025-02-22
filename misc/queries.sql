@@ -1,3 +1,4 @@
+-- vim: syntax=sql
 --- Create targets.csv from TIC parquets. --- 
 CREATE TABLE targets AS
     SELECT * FROM read_parquet("./misc/targets/*.parquet");
