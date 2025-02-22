@@ -80,7 +80,7 @@ def make_lightcurves(
             path, index=False
         )
 
-        results.append(tic, sector)
+        results.append((tic, sector))
 
     for f in glob.glob("cutouts/**"):
         shutil.rmtree(f)
