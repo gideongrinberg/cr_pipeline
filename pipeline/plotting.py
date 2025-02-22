@@ -9,7 +9,7 @@ from pipeline.lightcurves import load_lc
 from pipeline.complexity import _count_harmonics
 
 
-def make_plot(lc):
+def make_plot(lc, complexity=None):
     pg = lc.to_periodogram()
     harmonics = _count_harmonics(lc)
 
@@ -27,9 +27,16 @@ def make_plot(lc):
         axes[1].scatter(1 / x, y, marker="x", color="red")
 
     axes[1].set_xlim(-1, 50)
-    fig.suptitle(
-        f"{lc.meta['TIC']}, Sector {lc.meta['SECTOR']}\nPeriod: {str(pg.period_at_max_power)}"
-    )
+    if complexity is None:
+        fig.suptitle(
+            f"{lc.meta['TIC']}, Sector {lc.meta['SECTOR']}\nPeriod: {str(pg.period_at_max_power)}"
+        )
+    else:
+        fig.suptitle(
+            f"{lc.meta['TIC']}, Sector {lc.meta['SECTOR']}\nPeriod: {str(pg.period_at_max_power)}\n{'' if complexity else 'Not'} Complex"
+        )
+
+
 
     return fig
 
