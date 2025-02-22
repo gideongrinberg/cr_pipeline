@@ -217,4 +217,4 @@ tests/figs/
 tests/output/
 lightcurves/
 cutouts/
-misc/mdwarfs.csv
+misc/targets_full.csv
