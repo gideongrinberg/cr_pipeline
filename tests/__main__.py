@@ -7,7 +7,7 @@ from glob import glob
 from astroquery.mast import Tesscut
 
 from pipeline.complexity import is_complex
-from pipeline.plotting import make_diagnostic_plot
+from pipeline.plotting import make_plot
 from pipeline.lightcurves import make_lightcurves, load_lc
 
 import warnings
@@ -100,8 +100,8 @@ false_positives = merged[(merged["pipeline"] == True) & (merged["label"] == Fals
 false_negatives = merged[(merged["pipeline"] == False) & (merged["label"] == True)].shape[0]
 
 errors_pct = errors / total * 100
-fp_pct = false_positives / total * 100
-fn_pct = false_negatives / total * 100
+fp_pct = false_positives / merged[merged["label"] == True].shape[0] * 100
+fn_pct = false_negatives / merged[merged["label"] == False].shape[0] * 100
 
 true_positives = merged[(merged["pipeline"] == True) & (merged["label"] == True)].shape[0]
 true_negatives = merged[(merged["pipeline"] == False) & (merged["label"] == False)].shape[0]
@@ -121,7 +121,7 @@ for lc in tqdm.tqdm(fn_lcs):
 
     lc = load_lc(f"TIC {tic}", sector)
     try:
-        make_diagnostic_plot(lc)
+        make_plot(lc)
     except: 
         tqdm.tqdm.write(f"Failed to produce plot for TIC {tic}:{sector}")
 
@@ -135,7 +135,7 @@ for lc in tqdm.tqdm(fp_lcs):
 
     lc = load_lc(f"TIC {tic}", sector)
     try:
-        make_diagnostic_plot(lc)
+        make_plot(lc)
     except: 
         tqdm.tqdm.write(f"Failed to produce plot for TIC {tic}:{sector}")
 
@@ -148,7 +148,7 @@ for lc in tqdm.tqdm(tp_lcs):
 
     lc = load_lc(f"TIC {tic}", sector)
     try:
-        make_diagnostic_plot(lc)
+        make_plot(lc)
     except: 
         tqdm.tqdm.write(f"Failed to produce plot for TIC {tic}:{sector}")
 

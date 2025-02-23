@@ -20,7 +20,7 @@ def _get_sector(filename):
 def _download_cutouts(tic=None, ra=None, dec=None, cutout_size=50, sectors=None):
     if tic is None and (ra is None and dec is None):
         raise ValueError("_download_cutouts requires ra/dec or TIC")
-
+    
     if tic is not None:
         results = Catalogs.query_object(objectname=tic, catalog="TIC")
         ra = results[0]["ra"]

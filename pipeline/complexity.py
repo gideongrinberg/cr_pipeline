@@ -30,13 +30,21 @@ def _count_harmonics(
     peaks, properties = find_peaks(
         pg.power, distance=120, height=pg.max_power.value * height
     )
+
     peak_periods = [pg.period[idx].value for idx in peaks]
 
     found_harmonics = []
-    for i, period in enumerate(peak_periods):
-        in_range = 0.9 * expected_harmonics[i] <= period <= 1.1 * expected_harmonics[i]
-        if in_range:
-            found_harmonics.append((period, properties["peak_heights"][i]))
+    # for i, period in enumerate(peak_periods):
+    #     in_range = 0.9 * expected_harmonics[i] <= period <= 1.1 * expected_harmonics[i]
+    #     if in_range:
+    #         found_harmonics.append((period, properties["peak_heights"][i]))
+    for harmonic in expected_harmonics:
+        for idx, period in enumerate(peak_periods):
+            if 0.9 * harmonic <= period <= 1.1 * harmonic:
+                found_harmonics.append((period, properties["peak_heights"][idx]))
+                break
+
+
 
     return found_harmonics
 
